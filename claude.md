@@ -23,11 +23,20 @@ This is a shared team repo. My work (Member A, GPU baseline) lives entirely in
 touching my code. Do NOT create files outside these two folders unless I
 explicitly ask.
 
+## Git Workflow
+- After completing each task and verifying it works, automatically stage and
+  commit the relevant files with a clear, descriptive commit message.
+- Use conventional commit style, e.g.:
+  - "Add INT8 matmul test vectors for RTL team"
+  - "Add ncu profiling script and merge DRAM metrics into results CSV"
+- Only commit files within `gpu_baseline/` and `test_vectors/` (my own work).
+- Do NOT push automatically — I will push manually after reviewing.
+- Do NOT commit large data files like raw ncu reports (*.ncu-rep) or
+  power logs; add them to .gitignore instead.
+
 ## Environment
-- The venv at `~/myenv` provides torch/numpy/etc. It only needs to be activated
-  once per shell session (`source ~/myenv/bin/activate`), not before every
-  command. Assume it is already active in my current session; do not prepend
-  `source ~/myenv/bin/activate` to every python command.
+- Do NOT use `source ~/myenv/bin/activate` in commands. It triggers a
+  permission prompt every time because source evaluates shell code. Instead, call the venv's python directly by its absolute path:
 - Hardware: NVIDIA TITAN V, 12 GB HBM2, CUDA 12.4
 - PyTorch: 2.6.0+cu124
 - TITAN V key specs (verify before using in roofline):
