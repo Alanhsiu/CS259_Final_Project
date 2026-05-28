@@ -1,2 +1,4 @@
 __pycache__
 gpu_baseline/__pycache__
+gpu_baseline/power_log.csv
+gpu_baseline/*.ncu-rep
