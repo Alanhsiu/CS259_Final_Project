@@ -1,0 +1,25 @@
+Real GPT-2 attention tile (head 0, tokens 0-7)
+Source: GPT-2 small (gpt2), first attention layer, head 0
+Input text: "The quick brown fox jumps over the lazy dog ."
+Tile size: 8x8
+Q/K matrix dimensions: 8 rows x 64 cols
+C = Q * K^T: 8x8
+Quantization: symmetric INT8, per-tensor
+  Q scale: 0.02173549
+  K scale: 0.03122384
+  C dequant scale: 0.00067867
+Quantization error (max abs): 0.2072
+Quantization error (mean abs): 0.0656
+
+Files:
+  real_q_tile.hex  - Q tile (8x64 INT8), 2 hex chars/line, row-major
+  real_k_tile.hex  - K tile (8x64 INT8), 2 hex chars/line, row-major
+  real_c_expected.hex - C = Q*K^T (8x8 INT32), 8 hex chars/line, row-major
+
+Note: The RTL systolic array computes 8x8 x 8x8 tiles.
+      For full Q*K^T, decompose into 64/8=8 partial sums per output tile.
+
+Verilog usage:
+  $readmemh("real_q_tile.hex", q_mem);
+  $readmemh("real_k_tile.hex", k_mem);
+  $readmemh("real_c_expected.hex", c_expected);
