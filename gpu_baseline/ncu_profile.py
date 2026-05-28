@@ -18,15 +18,22 @@ SEQ_LENS = [1024, 2048, 4096, 8192, 16384]
 D = 64
 
 METRICS = ",".join([
-    "dram__bytes_read.sum",
-    "dram__bytes_write.sum",
+    # L1-level global load/store bytes: captures actual kernel memory traffic
+    # regardless of whether data was evicted to DRAM during the kernel.
+    # dram__bytes_write.sum is 0 for small S because the output stays in L2.
+    "l1tex__m_xbar2l1tex_read_bytes_mem_lg_op_ld.sum",   # L2→L1 global loads
+    "l1tex__m_l1tex2xbar_write_bytes_mem_lg_op_st.sum",  # L1→L2 global stores
     "sm__throughput.avg.pct_of_peak_sustained_elapsed",
     "gpu__dram_throughput.avg.pct_of_peak_sustained_elapsed",
     "sm__warps_active.avg.pct_of_peak_sustained_active",
 ])
 
-# Matches FlashAttention / fused-SDPA kernel names across PyTorch releases
-SDPA_PAT = re.compile(r"flash|fmha|sdp|attention", re.IGNORECASE)
+READ_M  = "l1tex__m_xbar2l1tex_read_bytes_mem_lg_op_ld.sum"
+WRITE_M = "l1tex__m_l1tex2xbar_write_bytes_mem_lg_op_st.sum"
+
+# On TITAN V (sm_70) PyTorch uses xformers memory-efficient attention:
+# kernel name is fmha_cutlassF_f16_aligned_*_sm70
+SDPA_PAT = re.compile(r"fmha|flash_attn|AttentionKernel|sdp_attention", re.IGNORECASE)
 
 
 def run_ncu(S: int) -> str:
@@ -68,10 +75,10 @@ def pick_sdpa_kernels(kernels: dict) -> list:
 
 
 def aggregate(kernels: dict, names: list) -> dict:
-    """Sum DRAM bytes; weight utilization pcts by each kernel's DRAM reads."""
-    dram_r = sum(kernels[n].get("dram__bytes_read.sum", 0) for n in names)
-    dram_w = sum(kernels[n].get("dram__bytes_write.sum", 0) for n in names)
-    weights = [kernels[n].get("dram__bytes_read.sum", 1) or 1 for n in names]
+    """Sum memory bytes; weight utilization pcts by each kernel's read bytes."""
+    dram_r = sum(kernels[n].get(READ_M, 0) for n in names)
+    dram_w = sum(kernels[n].get(WRITE_M, 0) for n in names)
+    weights = [kernels[n].get(READ_M, 1) or 1 for n in names]
     total_w = sum(weights)
 
     def wavg(metric: str) -> float:
