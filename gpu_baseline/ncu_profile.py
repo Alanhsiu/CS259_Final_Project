@@ -86,8 +86,8 @@ def aggregate(kernels: dict, names: list) -> dict:
                    for n, w in zip(names, weights)) / total_w
 
     return {
-        "dram_read_bytes": dram_r,
-        "dram_write_bytes": dram_w,
+        "l1_read_bytes": dram_r,
+        "l1_write_bytes": dram_w,
         "sm_throughput_pct": wavg("sm__throughput.avg.pct_of_peak_sustained_elapsed"),
         "dram_throughput_pct": wavg("gpu__dram_throughput.avg.pct_of_peak_sustained_elapsed"),
         "warps_active_pct": wavg("sm__warps_active.avg.pct_of_peak_sustained_active"),
@@ -113,22 +113,22 @@ def main():
         m = aggregate(kernels, names)
 
         flops = 4 * S * S * D
-        total_bytes = m["dram_read_bytes"] + m["dram_write_bytes"]
+        total_bytes = m["l1_read_bytes"] + m["l1_write_bytes"]
         ai = flops / total_bytes if total_bytes > 0 else 0.0
 
         rows.append({
             "S": S,
             "flops": flops,
-            "dram_read_bytes": int(m["dram_read_bytes"]),
-            "dram_write_bytes": int(m["dram_write_bytes"]),
+            "l1_read_bytes": int(m["l1_read_bytes"]),
+            "l1_write_bytes": int(m["l1_write_bytes"]),
             "total_bytes": int(total_bytes),
             "achieved_ai_flops_per_byte": round(ai, 4),
             "sm_throughput_pct": round(m["sm_throughput_pct"], 2),
             "dram_throughput_pct": round(m["dram_throughput_pct"], 2),
             "warps_active_pct": round(m["warps_active_pct"], 2),
         })
-        print(f"    dram_r={m['dram_read_bytes']/1e6:.1f} MB  "
-              f"dram_w={m['dram_write_bytes']/1e6:.1f} MB  "
+        print(f"    l1_r={m['l1_read_bytes']/1e6:.1f} MB  "
+              f"l1_w={m['l1_write_bytes']/1e6:.1f} MB  "
               f"AI={ai:.2f} FLOP/B  "
               f"SM={m['sm_throughput_pct']:.1f}%  "
               f"DRAM={m['dram_throughput_pct']:.1f}%")
@@ -139,7 +139,7 @@ def main():
 
     fieldnames = [
         "S", "flops",
-        "dram_read_bytes", "dram_write_bytes", "total_bytes",
+        "l1_read_bytes", "l1_write_bytes", "total_bytes",
         "achieved_ai_flops_per_byte",
         "sm_throughput_pct", "dram_throughput_pct", "warps_active_pct",
     ]
