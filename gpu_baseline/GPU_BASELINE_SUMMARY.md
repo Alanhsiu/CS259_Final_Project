@@ -63,7 +63,7 @@
 
 ## 3. Roofline Analysis
 
-![Roofline Plot](roofline.png)
+![Roofline Plot](figures/roofline.png)
 
 **TITAN V ridge points:**
 - FP32 peak (14.9 TFLOPS) ridge: **22.8 FLOP/byte**
@@ -121,9 +121,10 @@ For single-head FP16 attention (D=64) on the TITAN V:
 | `ncu_profile.py` | Nsight Compute profiling script |
 | `roofline_plot.py` | Roofline chart generator |
 | `extract_real_tiles.py` | GPT-2 real attention tiles for RTL team |
-| `gpu_results.csv` | Latency + GFLOPS results |
-| `gpu_results_ncu.csv` | NCU profiling results (DRAM, utilization, AI) |
-| `power_results.csv` | Raw power measurements per config |
-| `gpu_results_power.csv` | Fully merged results (all metrics) |
-| `roofline.png` | Roofline chart |
+| `data/gpu_results_base.csv` | Latency + GFLOPS results |
+| `data/gpu_results_ncu.csv` | NCU profiling results (DRAM, utilization, AI) |
+| `data/gpu_results_full.csv` | Merged base + NCU summary table |
+| `data/power_results.csv` | Raw power measurements per config |
+| `data/gpu_results_final.csv` | Fully merged results (all metrics) |
+| `figures/roofline.png` | Roofline chart |
 | `../test_vectors/real_tile/` | Real GPT-2 INT8 tiles for RTL validation |

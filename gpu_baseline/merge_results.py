@@ -3,10 +3,11 @@ import csv
 import os
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+DATA_DIR   = os.path.join(SCRIPT_DIR, "data")
 
-BASE_CSV = os.path.join(SCRIPT_DIR, "gpu_results.csv")
-NCU_CSV  = os.path.join(SCRIPT_DIR, "gpu_results_ncu.csv")
-OUT_CSV  = os.path.join(SCRIPT_DIR, "gpu_results_full.csv")
+BASE_CSV = os.path.join(DATA_DIR, "gpu_results_base.csv")
+NCU_CSV  = os.path.join(DATA_DIR, "gpu_results_ncu.csv")
+OUT_CSV  = os.path.join(DATA_DIR, "gpu_results_full.csv")
 
 
 def read_csv(path: str) -> dict[int, dict]:

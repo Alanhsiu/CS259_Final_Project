@@ -15,8 +15,10 @@ import torch
 import torch.nn as nn
 from transformers import GPT2Model, GPT2Tokenizer
 
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+
 TILE = 8
-OUT_DIR = "../test_vectors/real_tile"
+OUT_DIR = os.path.join(SCRIPT_DIR, "..", "test_vectors", "real_tile")
 os.makedirs(OUT_DIR, exist_ok=True)
 
 

@@ -17,13 +17,16 @@ import time
 import torch
 import torch.nn.functional as F
 
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+DATA_DIR   = os.path.join(SCRIPT_DIR, "data")
+
 SEQ_LENS = [1024, 2048, 4096, 8192, 16384]
 D = 64
 WARMUP = 50
 TARGET_SECONDS = 10.0   # run each config for ~10 s of active measurement
-POWER_LOG = "power_log.csv"
-OUT_CSV = "power_results.csv"
-MERGED_CSV = "gpu_results_power.csv"
+POWER_LOG  = os.path.join(SCRIPT_DIR, "power_log.csv")       # gitignored, transient
+OUT_CSV    = os.path.join(DATA_DIR, "power_results.csv")
+MERGED_CSV = os.path.join(DATA_DIR, "gpu_results_final.csv")
 
 
 def run_attention_for_seconds(S: int, seconds: float) -> tuple[float, float]:
@@ -148,16 +151,19 @@ def main():
         writer.writerows(power_rows)
     print(f"\nPower results written to {OUT_CSV}")
 
-    # Merge with gpu_results.csv + gpu_results_ncu.csv -> gpu_results_power.csv
+    # Merge with data/gpu_results_base.csv + data/gpu_results_ncu.csv -> data/gpu_results_final.csv
+    base_path = os.path.join(DATA_DIR, "gpu_results_base.csv")
+    ncu_path  = os.path.join(DATA_DIR, "gpu_results_ncu.csv")
+
     base_rows = {}
-    if os.path.exists("gpu_results.csv"):
-        with open("gpu_results.csv") as f:
+    if os.path.exists(base_path):
+        with open(base_path) as f:
             for row in csv.DictReader(f):
                 base_rows[int(row["S"])] = dict(row)
 
     ncu_rows = {}
-    if os.path.exists("gpu_results_ncu.csv"):
-        with open("gpu_results_ncu.csv") as f:
+    if os.path.exists(ncu_path):
+        with open(ncu_path) as f:
             for row in csv.DictReader(f):
                 ncu_rows[int(row["S"])] = dict(row)
 

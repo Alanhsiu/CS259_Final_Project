@@ -1,15 +1,18 @@
-"""GPU baseline: sweep S, measure SDPA latency and GFLOPS, write gpu_results.csv."""
+"""GPU baseline: sweep S, measure SDPA latency and GFLOPS, write data/gpu_results_base.csv."""
 import csv
+import os
 import time
 
 import torch
 import torch.nn.functional as F
 
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+
 SEQ_LENS = [1024, 2048, 4096, 8192, 16384]
 D = 64
 WARMUP = 100
 ITERS = 100
-OUT_CSV = "gpu_results.csv"
+OUT_CSV = os.path.join(SCRIPT_DIR, "data", "gpu_results_base.csv")
 
 
 def measure(S: int) -> dict:

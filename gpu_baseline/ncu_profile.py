@@ -12,7 +12,7 @@ import sys
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 SDPA_SCRIPT = os.path.join(SCRIPT_DIR, "sdpa_one_pass.py")
-OUT_CSV = os.path.join(SCRIPT_DIR, "gpu_results_ncu.csv")
+OUT_CSV = os.path.join(SCRIPT_DIR, "data", "gpu_results_ncu.csv")
 
 SEQ_LENS = [1024, 2048, 4096, 8192, 16384]
 D = 64

@@ -5,10 +5,16 @@ plotted against the memory and compute ceilings of the TITAN V.
 """
 import csv
 import math
+import os
 
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 import numpy as np
+
+SCRIPT_DIR  = os.path.dirname(os.path.abspath(__file__))
+DATA_DIR    = os.path.join(SCRIPT_DIR, "data")
+FIGURES_DIR = os.path.join(SCRIPT_DIR, "figures")
+os.makedirs(FIGURES_DIR, exist_ok=True)
 
 # ---------- TITAN V hardware specs ----------
 BW_GBS = 652.8          # HBM2 peak bandwidth (GB/s)
@@ -52,8 +58,8 @@ def load_base_results(path: str) -> dict:
 
 
 def main():
-    ncu = load_ncu_results("gpu_results_ncu.csv")
-    base = load_base_results("gpu_results.csv")
+    ncu = load_ncu_results(os.path.join(DATA_DIR, "gpu_results_ncu.csv"))
+    base = load_base_results(os.path.join(DATA_DIR, "gpu_results_base.csv"))
 
     fig, ax = plt.subplots(figsize=(10, 7))
 
@@ -141,8 +147,9 @@ def main():
     ax.text(2, 130, "Memory-bound region", color="red", fontsize=8, alpha=0.7)
 
     plt.tight_layout()
-    plt.savefig("roofline.png", dpi=150)
-    print("Saved roofline.png")
+    out_path = os.path.join(FIGURES_DIR, "roofline.png")
+    plt.savefig(out_path, dpi=150)
+    print(f"Saved {out_path}")
 
     # Print sanity-check table
     print(f"\n{'S':>6}  {'AI_theo':>10}  {'AI_ach':>10}  {'GFLOPS':>8}  {'Bound'}")
