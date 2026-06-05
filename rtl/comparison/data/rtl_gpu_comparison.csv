@@ -1,6 +1,6 @@
 Design,Process,Seq_len,Power_W,Latency_ms,GFLOPS,GFLOPS_per_W,Cell_area_mm2,GFLOPS_per_mm2,Note
 "RTL SA (TSMC 130nm, S=8 tile)",TSMC 130nm,8,0.0199,0.0110,1.4922,75.0818,0.7671,1.9452,"INT8 inputs, fixed S=8 tile"
-RTL SA (est. @ 12nm),TSMC 12nm (est.),8,0.0020,0.0011,14.9217,7508.1850,0.0065,2282.9533,"10× power, 10× freq, 0.0085× area (order-of-magnitude)"
+RTL SA (est. @ 12nm),TSMC 12nm (est.),8,0.0020,0.0011,14.9217,7508.1850,0.0065,2282.9533,"10x power, 10x freq, 0.0085x area (order-of-magnitude)"
 TITAN V (S=1024),TSMC 12nm,1024,46.6300,0.1945,1380.2000,29.6000,815.0000,1.6935,"FP16 tensor cores, full GPU die"
 TITAN V (S=2048),TSMC 12nm,2048,58.2800,0.3180,3376.3600,57.9300,815.0000,4.1428,"FP16 tensor cores, full GPU die"
 TITAN V (S=4096),TSMC 12nm,4096,80.7200,0.5161,8322.4900,103.1000,815.0000,10.2116,"FP16 tensor cores, full GPU die"
