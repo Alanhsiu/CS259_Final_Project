@@ -1,0 +1,4 @@
+ˇ改design,pe_organization,total_pes,matmul_compute_cycles,qk_cycles,score_capture_cycles,softmax_cycles,attnv_cycles,stream_done_cycles,total_cycles,latency_us,total_cell_area_um2,total_area_um2,total_power_mw,cycle_change_vs_1x8x8_pct,total_area_change_vs_1x8x8_pct,power_change_vs_1x8x8_pct,cycles_x_area,cycles_x_power,normalized_cycles_x_area,normalized_cycles_x_power
+single_8x8,1 x 8x8,64,22,192,1,176,24,65,458,4.58,962640,7920862,23.0365,0.0,0.0,0.0,3627754796,10550.717,1.2110013341276364,1.3076745363493325
+four_4x4,4 x 4x4,64,14,128,1,176,16,65,386,3.86,943418,8055035,22.9785,-15.720524017467252,1.6939191719285152,-0.2517743580839116,3109243510,8869.701000000001,1.03791415089282,1.0993264384526864
+sixteen_2x2,16 x 2x2,64,10,96,1,176,12,65,350,3.5,972359,8559044,23.0523,-23.580786026200872,8.056976627038814,0.06858680789181282,2995665400,8068.304999999999,1.0,1.0
