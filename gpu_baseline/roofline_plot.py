@@ -59,7 +59,8 @@ def load_base_results(path: str) -> dict:
 
 def main():
     ncu = load_ncu_results(os.path.join(DATA_DIR, "gpu_results_ncu.csv"))
-    base = load_base_results(os.path.join(DATA_DIR, "gpu_results_base.csv"))
+    # base = load_base_results(os.path.join(DATA_DIR, "gpu_results_base.csv"))
+    base = load_base_results(os.path.join(DATA_DIR, "gpu_results_final.csv"))
 
     fig, ax = plt.subplots(figsize=(10, 7))
 
@@ -132,8 +133,8 @@ def main():
 
     ax.set_xlabel("Arithmetic Intensity (FLOP / byte)", fontsize=12)
     ax.set_ylabel("Performance (GFLOPS)", fontsize=12)
-    ax.set_title("Roofline Chart — TITAN V, FP16 Single-Head Attention\n"
-                 "(D=64, batch=1; achieved AI 57–92 FLOP/B < FP16 tensor ridge 169 FLOP/B → memory-bound)",
+    ax.set_title("Roofline — TITAN V, FP16 Single-Head Attention\n"
+                 "(D=64, batch=1; achieved AI 57–92 FLOP/B < tensor-core ridge 169 FLOP/B)",
                  fontsize=11)
 
     ax.set_xlim(1, 1e4)
@@ -143,8 +144,8 @@ def main():
     ax.yaxis.set_major_formatter(ticker.LogFormatterSciNotation())
 
     # Shade memory-bound region
-    ax.axvspan(1, RIDGE_TENSOR, alpha=0.04, color="red", label="_nolegend_")
-    ax.text(2, 130, "Memory-bound region", color="red", fontsize=8, alpha=0.7)
+    # ax.axvspan(1, RIDGE_TENSOR, alpha=0.04, color="red", label="_nolegend_")
+    # ax.text(2, 130, "Memory-bound region", color="red", fontsize=8, alpha=0.7)
 
     plt.tight_layout()
     out_path = os.path.join(FIGURES_DIR, "roofline.png")

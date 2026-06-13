@@ -1,0 +1,4 @@
+design,pe_organization,rtl_report_cycles,analytical_model_cycles,error_percent
+single_8x8,1 x 8x8,458,458,0.0
+four_4x4,4 x 4x4,386,386,0.0
+sixteen_2x2,16 x 2x2,350,350,0.0
